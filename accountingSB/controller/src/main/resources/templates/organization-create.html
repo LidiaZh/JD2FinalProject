@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Organizations</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments}">Оборудование</a>
+    <a th:href="@{/invoices}">Накладные</a>
+    <a class="active" th:href="@{/organizations}">Организации</a>
+    <a th:href="@{/branches}">Филиалы</a>
+    <a th:href="@{/branches_departments}">Отделы</a>
+    <a th:href="@{/resPersons}">МОЛ</a>
+    <a th:href="@{/rest-organizations}">Rest</a>
+</div>
+<h1>Добавить Организацию</h1>
+
+<div class="container">
+    <form name="create" th:action="@{/organizations/organization-create}" th:object="${organization}" method="post">
+
+        <input type="hidden" name="pageNum" th:value="${pageNum}">
+        <input type="hidden" name="sortField" th:value="${sortField}">
+        <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+        <label for="name">Организация: </label>
+        <input type="text" th:field="*{name}" id="name" placeholder="'Трейд Инсвест' ООО">
+        <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+        <div th:if="${errorMessage}!=null"
+             style="color: red" th:text="${errorMessage}"></div>
+        <br>
+
+        <label for="address">Адрес: </label>
+        <input type="text" th:field="*{address}" id="address" placeholder="г.Минск, ул.Минская, д.14, к.22">
+        <div style="color: red" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Address Error</div>
+
+
+        <label for="contact">Контактное лицо: </label>
+        <input type="text" th:field="*{contact}" id="contact" placeholder="Максимов Леонид">
+        <div style="color: red" th:if="${#fields.hasErrors('contact')}" th:errors="*{contact}">Contact Error</div>
+
+        <label for="phone">Телефон:</label>
+        <input type="text" th:field="*{phone}" id="phone" placeholder="(017)7555555">
+        <div style="color: red" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone Error</div>
+
+        <input type="hidden" name="action">
+        <button type="submit">Сорханить</button>
+
+        <button type="reset">
+            <a th:href="@{'/organizations/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Назад</a>
+        </button>
+    </form>
+</div>
+</body>
+</html>

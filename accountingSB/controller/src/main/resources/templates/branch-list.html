@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Branches</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments}">Оборудование</a>
+    <a th:href="@{/invoices}">Накладные</a>
+    <a th:href="@{/organizations}">Организации</a>
+    <a class="active" th:href="@{/branches}">Филиалы</a>
+    <a th:href="@{/branches_departments}">Отделы</a>
+    <a th:href="@{/resPersons}">МОЛ</a>
+    <a th:href="@{/rest-organizations}">Rest</a>
+</div>
+<br>
+<button class="btn b1">
+    <a th:href="@{/branches/branch-create/{page}/{sortField}/{sortDir}(page=${pageNum},sortField=${sortField},sortDir=${sortDir})}">Добавить
+        филиал</a>
+</button>
+<br><br>
+
+<div th:if="${errorMessage}!=null"
+     style="color: red" th:text="${branch.name} + ' ' + ${errorMessage}">
+</div>
+
+<br>
+<div th:switch="${listOfBranches}">
+    <div><h2 th:case="null">Филиалов в БД нет</h2></div>
+    <div th:case="*">
+        <table id="customers">
+            <caption><h1>Список Филиалов</h1></caption>
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>
+                    <a th:href="@{'/branches/page/' + ${pageNum} + '?sortField=name&sortDir=' + ${reverseSortDir}}">
+                        Название</a>
+                </th>
+                <th>
+                    <a th:href="@{'/branches/page/' + ${pageNum} + '?sortField=address&sortDir=' + ${reverseSortDir}}">
+                        Адрес</a>
+                </th>
+                <th>
+                    <a th:href="@{'/branches/page/' + ${pageNum} + '?sortField=contact&sortDir=' + ${reverseSortDir}}">
+                        Контактоное лицо</a>
+                </th>
+                <th>
+                    <a th:href="@{'/branches/page/' + ${pageNum} + '?sortField=phone&sortDir=' + ${reverseSortDir}}">
+                        Телефон</a>
+                </th>
+                <th colspan="2"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="branch,iter: ${listOfBranches}">
+                <td th:text="${iter.count+(pageNum - 1)*pageSize}">
+                </td>
+                <td th:text="${branch.name}"></td>
+                <td th:text="${branch.address}"></td>
+                <td th:text="${branch.contact}"></td>
+                <td th:text="${branch.phone}"></td>
+                <td>
+                    <input name="idBranch" type="hidden" th:value="${branch.id}">
+                    <a th:href="@{/branches/branch-update/{id}/{page}/{sortField}/{sortDir}(id=${branch.id},page=${pageNum},sortField=${sortField},sortDir=${sortDir})}">Редактировать</a>
+                </td>
+                <td>
+                    <input name="idBranch" type="hidden" th:value="${branch.id}">
+                    <a th:href="@{/branches/branch-delete/{id}/{page}/{sortField}/{sortDir}(id=${branch.id},page=${pageNum},sortField=${sortField},sortDir=${sortDir})}">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+
+        <a class="page-link" th:if="${pageNum > 1}"
+           th:href="@{'/branches/page/'+ ${1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Первая</a>
+        <span th:unless="${pageNum > 1}">Первая</span>
+
+        <a th:if="${pageNum > 1}"
+           th:href="@{'/branches/page/' + ${pageNum - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Предыдущая</a>
+        <span th:unless="${pageNum > 1}">Предыдущая</span>
+
+        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+        <a th:if="${i != pageNum}"
+           th:href="@{'/branches/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]
+        </a>
+        <span th:unless="${i != pageNum}">[[${i}]]</span>
+        </span>
+
+        <a th:if="${pageNum < totalPages}"
+           th:href="@{'/branches/page/' + ${pageNum + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Следующая</a>
+        <span th:unless="${pageNum < totalPages}">Следующая</span>
+
+        <a th:if="${pageNum < totalPages}"
+           th:href="@{'/branches/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Последняя</a>
+        <span th:unless="${pageNum < totalPages}">Последняя</span>
+        <p>
+            Всего строк [[${totalItems}]] : Страница [[${pageNum}]] из [[${totalPages}]]
+        </p>
+    </div>
+</div>
+</body>
+</html>

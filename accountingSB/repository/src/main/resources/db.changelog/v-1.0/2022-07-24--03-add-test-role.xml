@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="1" author="Lidia Zhibul">
+        <sql>
+            create table if not exists users(
+                                                id INT primary key,
+                                                user_name VARCHAR(16) NOT NULL UNIQUE,
+                password VARCHAR(255) NOT NULL
+                );
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="Lidia Zhibul">
+        <sql>
+            INSERT INTO users (id, user_name, password)
+            VALUES ('1', 'admin', '$2y$12$kjBEvSNH8oN9508Vi8gpLOxzxsfc7H/HLRTQatlR4z3JOzrC4YXB6');
+
+            INSERT INTO users (id, user_name, password)
+            VALUES ('2', 'user', '$2y$12$kjBEvSNH8oN9508Vi8gpLOxzxsfc7H/HLRTQatlR4z3JOzrC4YXB6');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3" author="Lidia Zhibul">
+        <sql>
+            create table if not exists  roles(
+                                                 id INT primary key,
+                                                 name VARCHAR(45) NOT NULL
+                );
+        </sql>
+    </changeSet>
+
+    <changeSet id="4" author="Lidia Zhibul">
+        <sql>
+            INSERT INTO roles (id, name) VALUES( '1', 'USER');
+            INSERT INTO roles (id, name) VALUES( '2', 'ADMIN');
+        </sql>
+    </changeSet>
+
+    <changeSet id="5" author="Lidia Zhibul">
+        <sql>
+            create table if not exists  user_role(
+                                                     user_id INT NOT NULL,
+                                                     role_id INT NOT NULL,
+                                                     FOREIGN KEY (user_id) REFERENCES users (id),
+                FOREIGN KEY (role_id) REFERENCES roles (id)
+                );
+        </sql>
+    </changeSet>
+
+    <changeSet id="6" author="Lidia Zhibul">
+        <sql>
+            INSERT INTO user_role (user_id, role_id) VALUES('1', '2');
+            INSERT INTO user_role (user_id, role_id) VALUES('2', '1');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

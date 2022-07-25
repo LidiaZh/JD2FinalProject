@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="1" author="Lidia Zhibul">
+        <sql>
+            insert into branch (name, address, contact, phone)
+            values ('Минский филиал', 'г.Минск, ул.Радужная, д.7', 'Бойко Михаил', '(029) 7778585'),
+                   ('Брестский филиал', 'г.Брест, ул.Богдановича, д.12', 'Васютина Мария', '(029) 7588645'),
+                   ('Головное подразделение', 'г.Минск, ул.Баумана, д.28', 'Грин Алла', '(033) 6583641');
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="Lidia Zhibul">
+        <sql>
+            insert into department (name)
+            values ('Лаборатория'),
+                   ('Центральный склад'),
+                   ('Бухгалтерия');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3" author="Lidia Zhibul">
+        <sql>
+            insert into organization (name, address, contact, phone)
+            values ('Телестрим ООО', 'г.Минск, ул.Стебенева, д.23', 'Ромашкина Ольга', '(029) 3955111'),
+                   ('Минский филиал', 'г.Минск, ул.Радужная, д.7', 'Бойко Михаил', '(029) 7778585'),
+                   ('Брестский филиал', 'г.Брест, ул.Богдановича, д.12', 'Васютина Мария', '(029) 7588645'),
+                   ('Головное подразделение', 'г.Минск, ул.Баумана, д.28', 'Грин Алла', '(033) 6583641'),
+                   ('СтроимСами ОАО', 'н.п.Колодищи, ул.Минская, д.44', 'Заливако Михаил', '(033) 7864122');
+        </sql>
+    </changeSet>
+
+    <changeSet id="4" author="Lidia Zhibul">
+        <sql>
+            insert into responsible_person (name, surname, branch_id, department_id)
+            values ('Иван', 'Лютиков', 1, 1),
+                   ('Мария', 'Василькова', 1, 2),
+                   ('Григорий', 'Тюльпанов', 2, 3);
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="5" author="Lidia Zhibul">
+        <sql>
+            insert into invoice (number, cause, date, receiver_id, supplier_id)
+            values ('111', 'Договор поставки №12-1 от 2022-02-11', '2022-03-01', 2, 1),
+                   ('112', 'Договор поставки №22-12 от 2021-11-21', '2022-03-02', 5, 5),
+                   ('211', 'ремонт', '2022-05-20', 1, 2),
+                   ('251', 'возврат из ремонта', '2022-05-30', 2, 1),
+                   ('142', 'Указание головного офиса №28 от 2021-11-21', '2022-03-02', 3, 1);
+        </sql>
+    </changeSet>
+
+    <changeSet id="6" author="Lidia Zhibul">
+        <sql>
+            insert into equipment_detail (name, description, producer, term_of_use)
+            values ('Коммутатор Quidway S5328C-EI/PWR-EI',
+                    '24 интерфейса 10/100/1000 Base-T, 4 интерфейс Combo 1000 Base-X', 'Huawei', 5),
+                   ('Маршрутизатор Cisco ASR 1001', '4x10GE, 8x1GE интерфейсы', 'Cisco', 7);
+        </sql>
+    </changeSet>
+
+    <changeSet id="7" author="Lidia Zhibul">
+        <sql>
+            insert into equipment (account_number, serial_number, start_date, status, price, res_person_id,
+                                   equip_detail_id)
+            values ('10001', 'AN123UU', '2022-03-20', 'эксплуатация', 4000, 1, 1),
+                   ('10001', 'AN123UO', '2022-03-20', 'эксплуатация', 4000, 1, 1),
+                   ('10022', 'FV1244O', '2020-02-12', 'ремонт', 5000, 2, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="8" author="Lidia Zhibul">
+        <sql>
+            insert into department_branch (id_department, id_branch)
+            values (1, 2),
+                   (1, 3),
+                   (2, 1),
+                   (2, 2),
+                   (2, 3);
+        </sql>
+    </changeSet>
+
+    <changeSet id="9" author="Lidia Zhibul">
+        <sql>
+            insert into equipment_invoice (invoice_id, equipment_id)
+            values (1, 1),
+                   (1, 2),
+                   (3, 1),
+                   (4, 1),
+                   (2, 3),
+                   (5, 2);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Departments</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments}">Оборудование</a>
+    <a th:href="@{/invoices}">Накладные</a>
+    <a th:href="@{/organizations}">Организации</a>
+    <a th:href="@{/branches}">Филиалы</a>
+    <a class="active" th:href="@{/branches_departments}">Отделы</a>
+    <a th:href="@{/resPersons}">МОЛ</a>
+    <a th:href="@{/rest-organizations}">Rest</a>
+</div>
+<h2>Добавить отдел в состав филиала</h2>
+
+<div th:switch="${listOfAllDepartments}">
+    <div><h2 th:case="null">Отделов в БД нет</h2></div>
+    <div th:case="*">
+        <div class="container">
+            <form th:method="post" th:action="@{/branches_departments/add}">
+                <input type="hidden" name="idBranch" th:value="${idBranch}">
+                <th:block th:each="department:${listOfAllDepartments}">
+                    <p>
+                        <input type="checkbox" name="boxNameOfDep" th:value="${department.id}">
+                        <label th:text="${department.name}"></label>
+                    </p>
+                </th:block>
+                <input type="hidden" name="action">
+                <button class="btn b2">Сохранить</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+</body>
+</html>

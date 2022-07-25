@@ -1,0 +1,31 @@
+.btn {
+    border: none; /* Remove borders */
+    color: white; /* Add a text color */
+    padding: 14px 28px; /* Add some padding */
+    cursor: pointer; /* Add a pointer cursor on mouse-over */
+    border-radius: 12px;
+    margin-right: 100px;
+}
+
+.b1 {
+    float: right;
+    background-color: #4CAF50;
+}
+
+.b2 {
+    float: left;
+    background-color: #4CAF50;
+}
+
+.b3 {
+    float: right;
+    background-color: #ffffff;
+}
+.success {
+    background-color: #4CAF50;
+}
+
+/* Green */
+.success:hover {
+    background-color: #46a049;
+}

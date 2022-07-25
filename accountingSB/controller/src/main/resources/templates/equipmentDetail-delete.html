@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipments</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a class="active" th:href="@{/equipments}">Оборудование</a>
+    <a th:href="@{/invoices}">Накладные</a>
+    <a th:href="@{/organizations}">Организации</a>
+    <a th:href="@{/branches}">Филиалы</a>
+    <a th:href="@{/branches_departments}">Отделы</a>
+    <a th:href="@{/resPersons}">МОЛ</a>
+    <a th:href="@{/rest-organizations}">Rest</a>
+</div>
+<h1>Удалить Тип Оборудования</h1>
+
+<div class="container">
+    <form name="create" th:action="@{/equipmentDetails/equipmentDetail-delete}" th:object="${equipmentDetail}"
+          method="post">
+
+        <input type="hidden" name="pageNum" th:value="${pageNum}">
+        <input type="hidden" name="sortField" th:value="${sortField}">
+        <input type="hidden" name="sortDir" th:value="${sortDir}">
+        <input type="hidden" name="id" th:value="*{id}">
+
+        <label for="name">Модель оборудования: </label>
+        <input type="text" th:field="*{name}" id="name" disabled value="name">
+
+        <label for="desc">Описание:</label>
+        <input type="text" th:field="*{desc}" id="desc" disabled value="desc">
+
+        <label for="termOfUse">Срок использования, лет: </label>
+        <input type="text" th:field="*{termOfUse}" id="termOfUse" disabled value="termOfUse">
+
+        <label for="producer">Производитель: </label>
+        <input type="text" th:field="*{producer}" id="producer" disabled value="producer">
+
+        <input type="hidden" name="action">
+        <button type="submit">Удалить</button>
+
+        <button type="reset">
+            <a th:href="@{'/equipmentDetails/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Назад</a>
+        </button>
+    </form>
+</div>
+</body>
+</html>

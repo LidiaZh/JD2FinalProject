@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ResPersons</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments}">Оборудование</a>
+    <a th:href="@{/invoices}">Накладные</a>
+    <a th:href="@{/organizations}">Организации</a>
+    <a th:href="@{/branches}">Филиалы</a>
+    <a th:href="@{/branches_departments}">Отделы</a>
+    <a class="active" th:href="@{/resPersons}">МОЛ</a>
+    <a th:href="@{/rest-organizations}">Rest</a>
+</div>
+
+
+<form th:method="post" th:action="@{/resPersons/resPerson-update}" th:object="${resPerson}">
+    <div class="container">
+
+        <input type="hidden" name="pageNum" th:value="${pageNum}">
+        <input type="hidden" name="sortField" th:value="${sortField}">
+        <input type="hidden" name="sortDir" th:value="${sortDir}">
+        <input type="hidden" name="id" th:value="*{id}">
+        <input type="hidden" th:name="idBranch" th:value="${resPerson.branch.id}">
+        <input type="hidden" th:name="idDepartment" th:value="${resPerson.department.id}">
+
+        <div th:switch="${formAction}">
+
+            <div th:case="change">
+                <h1>Редактировать информацию о МОЛ</h1>
+                <label for="surname">Фамилия:</label>
+                <input type="text" th:field="*{surname}" id="surname" placeholder="surname">
+                <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname Error
+                </div>
+
+                <label for="name">Имя:</label>
+                <input type="text" th:field="*{name}" id="name" placeholder="name">
+                <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+
+                <label for="department">Отдел:</label>
+                <input type="text" th:field="*{department.name}" id="department" readonly value="department">
+
+                <label for="branch">Филиал:</label>
+                <input type="text" th:field="*{branch.name}" id="branch" readonly value="branch">
+
+            </div>
+
+            <div th:case="changeDep">
+                <h1>Перевод в другое подразделение</h1>
+
+                <label for="surname2">Фамилия:</label>
+                <input type="text" th:field="*{surname}" id="surname2" readonly value="surname">
+
+                <label for="name2">Имя:</label>
+                <input type="text" th:field="*{name}" id="name2" readonly value="name">
+
+                <label for="branch">Филиал:</label>
+                <select th:field="*{branch.id}" required>
+                    <option th:value="*{branch.id}"
+                            th:text="*{branch.name}"></option>
+                    <option
+                            th:each="branch: ${listOfBranches}"
+                            th:text="${branch.name}"
+                            th:value="${branch.id}"></option>
+                </select>
+
+                <label for="department">Отдел:</label>
+                <select th:field="*{department.id}" required>
+                    <option th:value="*{department.id}"
+                            th:text="*{department.name}"></option>
+                    <option
+                            th:each="department: ${listOfDepartments}"
+                            th:text="${department.name}"
+                            th:value="${department.id}"></option>
+                </select>
+
+            </div>
+        </div>
+
+        <input type="hidden" name="action">
+        <button type="submit">Сорханить</button>
+
+        <button type="reset">
+            <a th:href="@{'/resPersons/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Назад</a>
+        </button>
+    </div>
+</form>
+</div>
+</body>
+</html>
