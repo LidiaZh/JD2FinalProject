@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Departments</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments/}">Оборудование</a>
+    <a th:href="@{/invoices/}">Накладные</a>
+    <a th:href="@{/organizations/}">Организации</a>
+    <a th:href="@{/branches/}">Филиалы</a>
+    <a class="active" th:href="@{/branches_departments/}">Отделы</a>
+    <a th:href="@{/resPersons/}">МОЛ</a>
+    <a th:href="@{/rest-organizations}">Rest</a>
+</div>
+<br><br>
+
+<button class="btn b1"><a th:href="@{/departments}">Список отделов</a></button>
+
+<div th:switch="${listOfBranchesDto}">
+    <div><h2 th:case="null">Отделов в БД нет</h2></div>
+    <div th:case="*">
+        <th:block th:each="branch:${listOfBranchesDto}">
+            <table id="customers">
+                <caption><h1 th:text="${branch.name}"/></caption>
+                <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Отделы</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="dep, iter:${branch.department}">
+                    <tr>
+                        <td th:text="${iter.count}"></td>
+                        <td th:text="${dep.name}"></td>
+                        <td>
+                            <form th:method="post" th:action="@{/branches_departments/delete}">
+                                <input type="hidden" name="idBranch" th:value="${branch.id}">
+                                <input type="hidden" name="idDepartment" th:value="${dep.id}">
+                                <button class="btn b1" type="submit" name="action">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+            <br>
+            <button class="btn b1"><a th:href="@{/branches_departments/add/{idBranch}(idBranch=${branch.id})}">Добавить
+                для филиала</a></button>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

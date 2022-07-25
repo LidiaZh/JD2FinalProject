@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ResPersons</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments/}">Оборудование</a>
+    <a th:href="@{/invoices/}">Накладные</a>
+    <a th:href="@{/organizations/}">Организации</a>
+    <a th:href="@{/branches/}">Филиалы</a>
+    <a th:href="@{/branches_departments/}">Отделы</a>
+    <a class="active" th:href="@{/resPersons/}">МОЛ</a>
+    <a th:href="@{/rest-organizations/}">Rest</a>
+</div>
+
+<h1>Удалить MOЛ</h1>
+<div class="container">
+    <form th:method="post" th:action="@{/resPersons/resPerson-delete}" th:object="${resPerson}">
+
+        <input type="hidden" name="pageNum" th:value="${pageNum}">
+        <input type="hidden" name="sortField" th:value="${sortField}">
+        <input type="hidden" name="sortDir" th:value="${sortDir}">
+        <input type="hidden" name="id" th:value="*{id}">
+
+        <label for="surname">Фамилия:</label>
+        <input type="text" th:field="*{surname}" id="surname" disabled value="surname">
+
+        <label for="name">Имя:</label>
+        <input type="text" th:field="*{name}" id="name" disabled value="name">
+
+        <label for="department">Имя:</label>
+        <input type="text" th:field="*{department.name}" id="department" disabled value="department">
+
+        <label for="branch">Филиал:</label>
+        <input type="text" th:field="*{branch.name}" id="branch" disabled value="branch">
+
+        <input type="hidden" name="action">
+        <button type="submit">Удалить</button>
+
+        <button type="reset">
+            <a th:href="@{'/resPersons/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Назад</a>
+        </button>
+    </form>
+</div>
+</body>
+</html>

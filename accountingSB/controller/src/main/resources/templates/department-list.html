@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Departments</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments/}">Оборудование</a>
+    <a th:href="@{/invoices/}">Накладные</a>
+    <a th:href="@{/organizations/}">Организации</a>
+    <a th:href="@{/branches/}">Филиалы</a>
+    <a class="active" th:href="@{/branches_departments/}">Отделы</a>
+    <a th:href="@{/resPersons/}">МОЛ</a>
+    <a th:href="@{/rest-organizations}">Rest</a>
+</div>
+<br>
+<button class="btn b1">
+    <a th:href="@{/departments/department-create/{page}/{sortField}/{sortDir}(page=${pageNum},sortField=${sortField},sortDir=${sortDir})}">Добавить
+        отдел</a>
+</button>
+<button class="btn b1"><a th:href="@{/branches_departments}">Отделы и филиалы</a></button>
+<br><br>
+
+<div th:if="${errorMessage}!=null"
+     style="color: red" th:text="${department.name} + ' ' + ${errorMessage}">
+</div>
+
+<br>
+<div th:switch="${listOfDepartments}">
+    <div><h2 th:case="null">Отделов в БД нет</h2></div>
+    <div th:case="*">
+        <table id="customers">
+            <caption><h1>Список Отделов</h1></caption>
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>
+                    <a th:href="@{'/departments/page/' + ${pageNum} + '?sortField=name&sortDir=' + ${reverseSortDir}}">
+                        Название</a>
+                </th>
+                <th colspan="2"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="department,iter: ${listOfDepartments}">
+                <td th:text="${iter.count+(pageNum - 1)*pageSize}">
+                </td>
+                <td th:text="${department.name}"></td>
+                <td>
+                    <input name="idDepartment" type="hidden" th:value="${department.id}">
+                    <a th:href="@{/departments/department-update/{id}/{page}/{sortField}/{sortDir}(id=${department.id},page=${pageNum},sortField=${sortField},sortDir=${sortDir})}">Редактировать</a>
+                </td>
+                <td>
+                    <input name="idDepartment" type="hidden" th:value="${department.id}">
+                    <a th:href="@{/departments/department-delete/{id}/{page}/{sortField}/{sortDir}(id=${department.id},page=${pageNum},sortField=${sortField},sortDir=${sortDir})}">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+
+        <a class="page-link" th:if="${pageNum > 1}"
+           th:href="@{'/departments/page/'+ ${1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Первая</a>
+        <span th:unless="${pageNum > 1}">Первая</span>
+
+        <a th:if="${pageNum > 1}"
+           th:href="@{'/departments/page/' + ${pageNum - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Предыдущая</a>
+        <span th:unless="${pageNum > 1}">Предыдущая</span>
+
+        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+        <a th:if="${i != pageNum}"
+           th:href="@{'/departments/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]
+        </a>
+        <span th:unless="${i != pageNum}">[[${i}]]</span>
+        </span>
+
+        <a th:if="${pageNum < totalPages}"
+           th:href="@{'/departments/page/' + ${pageNum + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Следующая</a>
+        <span th:unless="${pageNum < totalPages}">Следующая</span>
+
+        <a th:if="${pageNum < totalPages}"
+           th:href="@{'/departments/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Последняя</a>
+        <span th:unless="${pageNum < totalPages}">Последняя</span>
+        <p>
+            Всего строк [[${totalItems}]] : Страница [[${pageNum}]] из [[${totalPages}]]
+        </p>
+    </div>
+</div>
+</body>
+</html>

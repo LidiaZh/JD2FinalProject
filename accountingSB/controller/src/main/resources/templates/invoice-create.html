@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoices</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments/}">Оборудование</a>
+    <a class="active" th:href="@{/invoices/}">Накладные</a>
+    <a th:href="@{/organizations/}">Организации</a>
+    <a th:href="@{/branches/}">Филиалы</a>
+    <a th:href="@{/branches_departments/}">Отделы</a>
+    <a th:href="@{/resPersons/}">МОЛ</a>
+    <a th:href="@{/rest-organizations/}">Rest</a>
+</div>
+<br>
+
+<div th:switch="${formAction}">
+    <div th:case="addInvoice">
+        <h1>Добавить Накладную</h1>
+        <form method="post" name="create" th:action="@{/invoices/invoice-create}" th:object="${invoice}">
+            <div class="container">
+                <input type="hidden" name="formAction" th:value="${formAction}">
+                <input type="hidden" name="pageNum" th:value="${pageNum}">
+                <input type="hidden" name="sortField" th:value="${sortField}">
+                <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+                <label for="number">Номер №:</label>
+                <input type="text" th:field="*{number}" id="number" placeholder="111">
+                <div style="color: red" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></div>
+                <div th:if="${errorMessage}!=null"
+                     style="color: red" th:text="${errorMessage}"></div>
+                <br>
+
+                <label for="date">Дата:</label><br>
+                <input type="date" th:field="*{date}" id="date"><br><br>
+                <div style="color: red" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+
+                <label for="cause">Основание:</label>
+                <input type="text" th:field="*{cause}" id="cause" placeholder="Договор поставки №135 от 20.05.2021">
+                <div style="color: red" th:if="${#fields.hasErrors('cause')}" th:errors="*{cause}"></div>
+
+                <label for="supplier">ГрузоОтправитель:</label>
+                <select th:field="*{supplier.id}" id="supplier" required>
+                    <option value=""></option>
+                    <option
+                            th:each="supplier: ${listOfOrganizations}"
+                            th:text="${supplier.name}"
+                            th:value="${supplier.id}">
+                    </option>
+                </select>
+
+                <label for="receiver">ГрузоПолучатель:</label>
+                <select th:field="*{receiver.id}" id="receiver" required>
+                    <option value=""></option>
+                    <option
+                            th:each="receiver: ${listOfOrganizations}"
+                            th:text="${receiver.name}"
+                            th:value="${receiver.id}">
+                    </option>
+                </select>
+
+                <input type="hidden" name="action">
+                <button type="submit">Сорханить</button>
+
+                <button type="reset">
+                    <a th:href="@{'/invoices/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Назад</a>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div th:case="writeInvoice">
+        <h1>Выписать Накладную</h1>
+        <form method="post" name="writeEquipment" th:action="@{/invoices/invoice-create}" th:object="${invoice}">
+            <div class="container">
+
+                <input type="hidden" name="formAction" th:value="${formAction}">
+                <input type="hidden" name="pageNum" th:value="${pageNum}">
+                <input type="hidden" name="sortField" th:value="${sortField}">
+                <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+                <label for="number1">Номер №:</label>
+                <input type="text" th:field="*{number}" id="number1" placeholder="111">
+                <div style="color: red" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></div>
+                <div th:if="${errorMessage}!=null"
+                     style="color: red" th:text="${errorMessage}"></div>
+                <br>
+
+                <label for="date1">Дата:</label><br>
+                <input type="date" th:field="*{date}" id="date1"><br><br>
+                <div style="color: red" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+
+                <label for="cause1">Основание:</label>
+                <input type="text" th:field="*{cause}" id="cause1" placeholder="Договор поставки №135 от 20.05.2021">
+                <div style="color: red" th:if="${#fields.hasErrors('cause')}" th:errors="*{cause}"></div>
+
+                <label for="supplier1">ГрузоОтправитель:</label>
+                <select th:field="*{supplier.id}" id="supplier1" required>
+                    <option value=""></option>
+                    <option
+                            th:each="supplier: ${listOfOrganizations}"
+                            th:text="${supplier.name}"
+                            th:value="${supplier.id}">
+                    </option>
+                </select>
+
+                <label for="receiver1">ГрузоПолучатель:</label>
+                <select th:field="*{receiver.id}" id="receiver1" required>
+                    <option value=""></option>
+                    <option
+                            th:each="receiver: ${listOfOrganizations}"
+                            th:text="${receiver.name}"
+                            th:value="${receiver.id}">
+                    </option>
+                </select>
+
+                <input type="hidden" th:value="*{id}">
+                <input type="hidden" name="action">
+                <button type="submit">Далее</button>
+
+                <button type="reset">
+                    <a th:href="@{'/invoices/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Назад</a>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

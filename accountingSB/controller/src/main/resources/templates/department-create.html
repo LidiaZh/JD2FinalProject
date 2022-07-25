@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Departments</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments/}">Оборудование</a>
+    <a th:href="@{/invoices/}">Накладные</a>
+    <a th:href="@{/organizations/}">Организации</a>a>
+    <a th:href="@{/branches/}">Филиалы</a>
+    <a class="active" th:href="@{/branches_departments/}">Отделы</a>
+    <a th:href="@{/resPersons/}">МОЛ</a>
+    <a th:href="@{/rest-organizations}">Rest</a>
+</div>
+<h1>Добавить Отдел</h1>
+
+<div class="container">
+    <form name="create" th:action="@{/departments/department-create}" th:object="${department}" method="post">
+
+        <input type="hidden" name="pageNum" th:value="${pageNum}">
+        <input type="hidden" name="sortField" th:value="${sortField}">
+        <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+        <label for="name">Отдел:</label>
+        <input type="text" th:field="*{name}" id="name" placeholder="Название отдела">
+        <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+        <div th:if="${errorMessage}!=null"
+             style="color: red" th:text="${errorMessage}"></div>
+
+        <br>
+        <input type="hidden" name="action">
+        <button type="submit">Сорханить</button>
+
+        <button type="reset">
+            <div th:if="${pageNum}!=null">
+                <a th:href="@{'/departments/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Назад</a>
+            </div>
+            <div th:unless="${pageNum}!=null">
+                <a th:href="@{'/departments'}">Назад</a>
+            </div>
+        </button>
+    </form>
+</div>
+</body>
+</html>

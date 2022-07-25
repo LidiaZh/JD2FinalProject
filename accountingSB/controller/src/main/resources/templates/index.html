@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">>
+<head>
+    <meta charset="UTF-8">
+    <title>Equipments</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a class="active" th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments/}">Оборудование</a>
+    <a th:href="@{/invoices/}">Накладные</a>
+    <a th:href="@{/organizations/}">Организации</a>
+    <a th:href="@{/branches/}">Филиалы</a>
+    <a th:href="@{/branches_departments/}">Отделы</a>
+    <a th:href="@{/resPersons/}">МОЛ</a>
+    <a th:href="@{/rest-organizations/}">Rest</a>
+</div>
+
+
+</body>
+</html>

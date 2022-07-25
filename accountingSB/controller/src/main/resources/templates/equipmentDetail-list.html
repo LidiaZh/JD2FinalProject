@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipments</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a class="active" th:href="@{/equipments/}">Оборудование</a>
+    <a th:href="@{/invoices/}">Накладные</a>
+    <a th:href="@{/organizations/}">Организации</a>
+    <a th:href="@{/branches/}">Филиалы</a>
+    <a th:href="@{/branches_departments/}">Отделы</a>
+    <a th:href="@{/resPersons/}">МОЛ</a>
+    <a th:href="@{/rest-organizations/}">Rest</a>
+</div>
+<br>
+<button class="btn b1">
+    <a th:href="@{/equipmentDetails/equipmentDetail-create/{page}/{sortField}/{sortDir}(page=${pageNum},sortField=${sortField},sortDir=${sortDir})}">Добавить
+        тип оборудования</a>
+</button>
+<button class="btn b1">
+    <a th:href="@{/equipments}">Список оборудования</a>
+</button>
+<br><br>
+
+<div th:if="${errorMessage}!=null"
+     style="color: red" th:text="${equipmentDetail.name} + ' ' + ${errorMessage}">
+</div>
+
+<br>
+<div th:switch="${listOfEquipmentDetails}">
+    <div><h2 th:case="null">Оборудования в БД нет</h2></div>
+    <div th:case="*">
+        <table id="customers">
+            <caption><h1>Список Типов Оборудования</h1></caption>
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>
+                    <a th:href="@{'/equipmentDetails/page/' + ${pageNum} + '?sortField=name&sortDir=' + ${reverseSortDir}}">
+                        Модель оборудования</a>
+                </th>
+                <th>
+                    <a th:href="@{'/equipmentDetails/page/' + ${pageNum} + '?sortField=desc&sortDir=' + ${reverseSortDir}}">
+                        Описание</a>
+                </th>
+                <th>
+                    <a th:href="@{'/equipmentDetails/page/' + ${pageNum} + '?sortField=termOfUse&sortDir=' + ${reverseSortDir}}">
+                        Срок использования, лет</a>
+                </th>
+                <th>
+                    <a th:href="@{'/equipmentDetails/page/' + ${pageNum} + '?sortField=producer&sortDir=' + ${reverseSortDir}}">
+                        Производитель</a>
+                </th>
+                <th colspan="2"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="equipmentDetail,iter: ${listOfEquipmentDetails}">
+                <td th:text="${iter.count+(pageNum - 1)*pageSize}">
+                </td>
+                <td th:text="${equipmentDetail.name}"></td>
+                <td th:text="${equipmentDetail.desc}"></td>
+                <td th:text="${equipmentDetail.termOfUse}"></td>
+                <td th:text="${equipmentDetail.producer}"></td>
+                <td>
+                    <input name="idEquipmentDetail" type="hidden" th:value="${equipmentDetail.id}">
+                    <a th:href="@{/equipmentDetails/equipmentDetail-update/{id}/{page}/{sortField}/{sortDir}(id=${equipmentDetail.id},page=${pageNum},sortField=${sortField},sortDir=${sortDir})}">Редактировать</a>
+                </td>
+                <td>
+                    <input name="idEquipmentDetail" type="hidden" th:value="${equipmentDetail.id}">
+                    <a th:href="@{/equipmentDetails/equipmentDetail-delete/{id}/{page}/{sortField}/{sortDir}(id=${equipmentDetail.id},page=${pageNum},sortField=${sortField},sortDir=${sortDir})}">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+
+        <a class="page-link" th:if="${pageNum > 1}"
+           th:href="@{'/equipmentDetails/page/'+ ${1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Первая</a>
+        <span th:unless="${pageNum > 1}">Первая</span>
+
+        <a th:if="${pageNum > 1}"
+           th:href="@{'/equipmentDetails/page/' + ${pageNum - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Предыдущая</a>
+        <span th:unless="${pageNum > 1}">Предыдущая</span>
+
+        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+        <a th:if="${i != pageNum}"
+           th:href="@{'/equipmentDetails/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]
+        </a>
+        <span th:unless="${i != pageNum}">[[${i}]]</span>
+        </span>
+
+        <a th:if="${pageNum < totalPages}"
+           th:href="@{'/equipmentDetails/page/' + ${pageNum + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Следующая</a>
+        <span th:unless="${pageNum < totalPages}">Следующая</span>
+
+        <a th:if="${pageNum < totalPages}"
+           th:href="@{'/equipmentDetails/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            Последняя</a>
+        <span th:unless="${pageNum < totalPages}">Последняя</span>
+        <p>
+            Всего строк [[${totalItems}]] : Страница [[${pageNum}]] из [[${totalPages}]]
+        </p>
+    </div>
+</div>
+</body>
+</html>

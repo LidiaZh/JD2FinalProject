@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoices</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+<body>
+
+<div style="text-align: center;">
+    <h1> Страница входа </h1>
+    <p th:if="${loginError}" class="error">Неверное имя пользователя или пароль</p>
+    <form th:action="@{/login}" method="post">
+        <label for="username">Имя пользователя:</label>:
+        <input type="text" id="username" name="username" autofocus="autofocus"/> <br/>
+        <label for="password">Пароль:</label>:
+        <input type="password" id="password" name="password"/> <br/>
+        <input type="submit" value="Логин"/>
+    </form>
+    <p><a href="/index" th:href="@{/}"> Вернуться на главную страницу </a></p>
+</div>
+</body>
+</html>

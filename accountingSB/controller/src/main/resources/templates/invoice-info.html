@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoices</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments/}">Оборудование</a>
+    <a class="active" th:href="@{/invoices/}">Накладные</a>
+    <a th:href="@{/organizations/}">Организации</a>
+    <a th:href="@{/branches/}">Филиалы</a>
+    <a th:href="@{/branches_departments/}">Отделы</a>
+    <a th:href="@{/resPersons/}">МОЛ</a>
+    <a th:href="@{/rest-organizations/}">Rest</a>
+</div>
+<br>
+<button class="btn b1">
+    <a th:href="@{'/invoices/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Список
+        накладных</a>
+</button>
+<div style="text-align: center;">
+    <h1><span th:text="'Накладная №' + ${invoice.number} + ' от ' + ${invoice.date}"/></h1>
+</div>
+<strong>ГрузоОтправитель: </strong>
+<span th:text="${invoice.supplier.name}"/>
+<br><br>
+<strong>ГрузоПолучатель: </strong>
+<span th:text="${invoice.receiver.name}"/>
+<br><br>
+<strong>Основание: </strong>
+<span th:text="${invoice.cause}"/>
+<br>
+<table id="customers">
+    <caption><h2>Оборудование</h2></caption>
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Инв. номер</th>
+        <th>Модель оборудования</th>
+        <th>Цена, бел.руб.</th>
+    </tr>
+    </thead>
+    <tbody>
+    <div th:switch="${invoice.equipmentsInInvoice}">
+        <h2 th:case="null">Накладных в БД нет</h2>
+        <div th:case="*">
+            <tr th:each="equip,iter: ${invoice.equipmentsInInvoice}">
+                <td th:text="${iter.count}"></td>
+                <td th:text="${equip.accountNumber}"></td>
+                <td th:text="${equip.equipmentDetail.name}"></td>
+                <td th:text="${equip.price}"></td>
+            </tr>
+        </div>
+    </div>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipments</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a class="active" th:href="@{/equipments/}">Оборудование</a>
+    <a th:href="@{/invoices/}">Накладные</a>
+    <a th:href="@{/organizations/}">Организации</a>
+    <a th:href="@{/branches/}">Филиалы</a>
+    <a th:href="@{/branches_departments/}">Отделы</a>
+    <a th:href="@{/resPersons/}">МОЛ</a>
+    <a th:href="@{/rest-organizations/}">Rest</a>
+</div>
+<h1>Добавить Тип Оборудования</h1>
+
+<div class="container">
+    <form name="create" th:action="@{/equipmentDetails/equipmentDetail-create}" th:object="${equipmentDetail}"
+          method="post">
+
+        <input type="hidden" name="pageNum" th:value="${pageNum}">
+        <input type="hidden" name="sortField" th:value="${sortField}">
+        <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+        <label for="name">Модель оборудования: </label>
+        <input type="text" th:field="*{name}" id="name" placeholder="Монитор Samsung S24R350FZI">
+        <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+        <div th:if="${errorMessage}!=null"
+             style="color: red" th:text="${errorMessage}"></div>
+        <br>
+
+        <label for="desc">Описание:</label>
+        <input type="text" th:field="*{desc}" id="desc"
+               placeholder="23.8'', 16:9, 1920x1080, IPS, 75 Гц, AMD FreeSync, интерфейсы HDMI+D-Sub (VGA)">
+        <div style="color: red" th:if="${#fields.hasErrors('desc')}" th:errors="*{desc}"></div>
+
+        <label for="termOfUse">Срок использования, лет: </label>
+        <input type="text" th:field="*{termOfUse}" id="termOfUse" placeholder="5">
+        <div style="color: red" th:if="${#fields.hasErrors('termOfUse')}" th:errors="*{termOfUse}"></div>
+
+        <label for="producer">Производитель: </label>
+        <input type="text" th:field="*{producer}" id="producer" placeholder="Samsung">
+        <div style="color: red" th:if="${#fields.hasErrors('producer')}" th:errors="*{producer}"></div>
+
+        <input type="hidden" name="action">
+        <button type="submit">Сорханить</button>
+
+        <button type="reset">
+            <a th:href="@{'/equipmentDetails/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Назад</a>
+        </button>
+    </form>
+</div>
+</body>
+</html>
