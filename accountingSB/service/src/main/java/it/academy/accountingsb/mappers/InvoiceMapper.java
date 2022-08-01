@@ -13,10 +13,8 @@ import javax.xml.validation.Validator;
                 Validator.class})
 public interface InvoiceMapper {
 
-    @Mapping(source = "equipments", target = "equipmentsInInvoice")
     InvoiceDto toInvoiceDto(Invoice invoice);
 
-    @InheritInverseConfiguration
     Invoice toInvoice(InvoiceDto invoiceDto);
 
 

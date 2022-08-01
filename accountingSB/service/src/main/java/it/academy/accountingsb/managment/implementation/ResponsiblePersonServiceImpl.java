@@ -3,9 +3,13 @@ package it.academy.accountingsb.managment.implementation;
 import it.academy.accountingsb.dao.BranchRepository;
 import it.academy.accountingsb.dao.DepartmentRepository;
 import it.academy.accountingsb.dao.ResponsiblePersonRepository;
+import it.academy.accountingsb.dto.BranchDto;
+import it.academy.accountingsb.dto.DepartmentDto;
 import it.academy.accountingsb.dto.ResponsiblePersonDto;
 import it.academy.accountingsb.entity.ResponsiblePerson;
 import it.academy.accountingsb.managment.interfaces.ResponsiblePersonService;
+import it.academy.accountingsb.mappers.BranchMapper;
+import it.academy.accountingsb.mappers.DepartmentMapper;
 import it.academy.accountingsb.mappers.ResponsiblePersonMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +30,9 @@ public class ResponsiblePersonServiceImpl implements ResponsiblePersonService {
     private final DepartmentRepository departmentRepository;
 
     public ResponsiblePersonServiceImpl(ResponsiblePersonRepository resPersonRepository,
-                                        ResponsiblePersonMapper resPersonMapper, BranchRepository branchRepository, DepartmentRepository departmentRepository) {
+                                        ResponsiblePersonMapper resPersonMapper,
+                                        BranchRepository branchRepository,
+                                        DepartmentRepository departmentRepository) {
         this.resPersonRepository = resPersonRepository;
         this.resPersonMapper = resPersonMapper;
         this.branchRepository = branchRepository;

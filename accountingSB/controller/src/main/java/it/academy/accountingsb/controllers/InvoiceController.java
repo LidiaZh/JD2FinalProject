@@ -15,11 +15,12 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
-import static it.academy.accountingsb.constants.Const.*;
+import static it.academy.accountingsb.constants.Constant.*;
 
 @Controller
 @RequestMapping("/invoices")
 public class InvoiceController {
+
     private final InvoiceService invoiceService;
     private final OrganizationService organizationService;
     private final BranchService branchService;
@@ -179,6 +180,7 @@ public class InvoiceController {
                                   @PathVariable(SORT_FIELD) String sortField,
                                   @PathVariable(SORT_DIR) String sortDir) {
         model.addAttribute(INVOICE, invoiceService.getInvoice(idInvoice));
+        model.addAttribute(EQUIPMENTS_IN_INVOICE,invoiceService.getEquipment(idInvoice));
         setPageAttribute(pageNum, sortField, sortDir, model);
         return INVOICE_INFO_HTML;
     }

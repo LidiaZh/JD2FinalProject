@@ -85,7 +85,7 @@
 
         <label for="startDate">Начало эксплуатации:</label>
         <br><input type="date" th:field="*{startDate}" id="startDate" value="startDate"><br><br>
-        <div style="color: red" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
+        <div style="color: red" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
 
         <label for="price">Цена, бел.руб.: </label>
         <input type="text" th:field="*{price}" id="price" required>
@@ -104,6 +104,7 @@
                 </div>
             </option>
         </select>
+<!--        <div style="color: red" th:if="${#fields.hasErrors('responsiblePerson.id')}" th:errors="*{sresponsiblePerson.id}"></div>-->
 
         <input type="hidden" name="action">
         <button type="submit">Сорханить</button>

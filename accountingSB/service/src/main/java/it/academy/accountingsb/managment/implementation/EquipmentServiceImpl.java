@@ -43,17 +43,16 @@ public class EquipmentServiceImpl implements EquipmentService {
                               Integer idEquipmentDetail,
                               Integer idInvoiceNew,
                               Integer idInvoiceCurrent) {
+
         Equipment equipment = equipmentMapper.toEquipment(equipmentDto);
-        List<Invoice> invoices = new ArrayList<>();
+        List<Invoice> invoiceList = new ArrayList<>();
         if (equipment.getInvoices() != null) {
-            invoices = equipment.getInvoices();
+            invoiceList = equipment.getInvoices();
+            invoiceList.remove(invoiceRepository.getReferenceById(idInvoiceCurrent));
         }
-        if (idInvoiceCurrent != null) {
-            invoices.remove(invoiceRepository.getReferenceById(idInvoiceCurrent));
-        }
-        invoices.add(invoiceRepository.findById(idInvoiceNew).orElse(null));
+        invoiceList.add(invoiceRepository.findById(idInvoiceNew).orElse(null));
         equipment.setEquipmentDetail(equipmentDetailRepository.getReferenceById(idEquipmentDetail));
-        equipment.setInvoices(invoices);
+        equipment.setInvoices(invoiceList);
         equipmentRepository.save(equipment);
     }
 

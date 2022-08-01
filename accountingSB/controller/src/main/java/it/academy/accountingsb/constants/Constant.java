@@ -1,6 +1,6 @@
 package it.academy.accountingsb.constants;
 
-public class Const {
+public class Constant {
 
     public static final String LOCAL_DATE = "localDate";
     public static final String ASC_SORT = "asc";
@@ -41,6 +41,7 @@ public class Const {
     public static final String INVOICE = "invoice";
     public static final String EQUIPMENT = "equipment";
     public static final String EQUIPMENT_DETAIL = "equipmentDetail";
+    public static final String EQUIPMENTS_IN_INVOICE = "equipmentsInInvoice";
 
 
     public static final String LIST_OF_BRANCHES = "listOfBranches";

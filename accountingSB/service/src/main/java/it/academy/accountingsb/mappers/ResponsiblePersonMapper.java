@@ -11,6 +11,7 @@ import javax.xml.validation.Validator;
                 BranchMapper.class,
                 Validator.class})
 public interface ResponsiblePersonMapper {
+
     ResponsiblePersonDto toResPersonDto(ResponsiblePerson responsiblePerson);
 
     ResponsiblePerson toResPerson(ResponsiblePersonDto responsiblePersonDto);

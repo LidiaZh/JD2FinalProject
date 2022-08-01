@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static it.academy.accountingsb.constants.Const.*;
+import static it.academy.accountingsb.constants.Constant.*;
 
 @Controller
 @RequestMapping("/departments")

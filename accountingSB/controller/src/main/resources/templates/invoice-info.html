@@ -54,10 +54,10 @@
     </tr>
     </thead>
     <tbody>
-    <div th:switch="${invoice.equipmentsInInvoice}">
+    <div th:switch="${equipmentsInInvoice}">
         <h2 th:case="null">Накладных в БД нет</h2>
         <div th:case="*">
-            <tr th:each="equip,iter: ${invoice.equipmentsInInvoice}">
+            <tr th:each="equip,iter: ${equipmentsInInvoice}">
                 <td th:text="${iter.count}"></td>
                 <td th:text="${equip.accountNumber}"></td>
                 <td th:text="${equip.equipmentDetail.name}"></td>
