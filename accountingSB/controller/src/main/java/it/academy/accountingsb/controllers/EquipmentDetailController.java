@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static it.academy.accountingsb.constants.Const.*;
+import static it.academy.accountingsb.constants.Constant.*;
 
 @Controller
 @RequestMapping("/equipmentDetails")
@@ -58,13 +58,18 @@ public class EquipmentDetailController {
     @PostMapping("/equipmentDetail-create")
     public String createEquipmentDetail(@ModelAttribute(EQUIPMENT_DETAIL) @Valid EquipmentDetailDto equipmentDetailDto,
                                         BindingResult bindingResult,
+                                        int pageNum,
+                                        String sortField,
+                                        String sortDir,
                                         Model model) {
         if (bindingResult.hasErrors()) {
+            setPageAttribute(pageNum, sortField, sortDir, model);
             return EQUIPMENT_DETAIL_CREATE_HTML;
         }
         try {
             equipmentDetailService.saveEquipmentDetail(equipmentDetailDto);
         } catch (Exception ex) {
+            setPageAttribute(pageNum, sortField, sortDir, model);
             model.addAttribute(ERROR_MESSAGE, "Такой тип оборудования уже создан");
             return EQUIPMENT_DETAIL_CREATE_HTML;
         }

@@ -43,6 +43,7 @@
 
         <label for="date">Дата:</label><br>
         <input type="text" th:field="*{date}" id="date" readonly value="date">
+        <div style="color: red" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
 
         <label for="cause">Основание:</label>
         <input type="text" th:field="*{cause}" id="cause" placeholder="cause">

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static it.academy.accountingsb.constants.Const.*;
+import static it.academy.accountingsb.constants.Constant.*;
 
 @Controller
 @RequestMapping("/resPersons")
@@ -77,6 +77,8 @@ public class ResponsiblePersonController {
         if (bindingResult.hasErrors()) {
             model.addAttribute(LIST_OF_DEPARTMENTS, departmentService.getListOfDepartmentDto());
             model.addAttribute(LIST_OF_BRANCHES, branchService.getListOfBranchDto());
+            model.addAttribute(BRANCH_ID,idBranch);
+            model.addAttribute(DEPARTMENT_ID,idDepartment);
             setPageAttribute(pageNum, sortField, sortDir, model);
             return RES_PERSON_CREATE_HTML;
         }
@@ -139,8 +141,8 @@ public class ResponsiblePersonController {
     @PostMapping("/resPerson-update")
     public String editResponsiblePerson(@ModelAttribute(RESPONSIBLE_PERSON) @Valid ResponsiblePersonDto responsiblePersonDto,
                                         BindingResult bindingResult,
-                                        @RequestParam(BRANCH_ID) Integer idBranch,
-                                        @RequestParam(DEPARTMENT_ID) Integer idDepartment,
+                                        @RequestParam(BRANCH_DOT_ID) Integer idBranch,
+                                        @RequestParam(DEPARTMENT_DOT_ID) Integer idDepartment,
                                         int pageNum,
                                         String sortField,
                                         String sortDir,

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static it.academy.accountingsb.constants.Const.ID;
+import static it.academy.accountingsb.constants.Constant.ID;
 
 @RestController
 @RequestMapping("/rest-organizations")

@@ -1,5 +1,6 @@
 package it.academy.accountingsb.managment.interfaces;
 
+import it.academy.accountingsb.dto.EquipmentDto;
 import it.academy.accountingsb.dto.InvoiceDto;
 import org.springframework.data.domain.Page;
 
@@ -22,10 +23,8 @@ public interface InvoiceService {
                                    String sortField,
                                    String sortDir);
 
-//    Invoice writeNewInvoice(Integer number, LocalDate date,
-//                            String cause, Integer idSupplier,
-//                            Integer idReceiver);
-
     void getEquipmentForInvoice(String[] equipments,
                                 Integer idInvoice);
+
+    List<EquipmentDto> getEquipment(Integer idInvoice);
 }

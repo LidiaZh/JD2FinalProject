@@ -28,5 +28,4 @@ public class BranchDto {
     @Pattern(regexp = "\\d{7,10}|(?:\\d{3})\\d{2}-?\\d{5}|\\(\\d{3}\\)\\d{3}-?\\d{4}", message = "Введите телефон правильно")
     private String phone;
     private Set<DepartmentDto> department;
-
 }

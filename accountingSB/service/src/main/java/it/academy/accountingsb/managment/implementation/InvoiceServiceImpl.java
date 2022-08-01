@@ -3,10 +3,12 @@ package it.academy.accountingsb.managment.implementation;
 import it.academy.accountingsb.dao.EquipmentRepository;
 import it.academy.accountingsb.dao.InvoiceRepository;
 import it.academy.accountingsb.dao.OrganizationRepository;
+import it.academy.accountingsb.dto.EquipmentDto;
 import it.academy.accountingsb.dto.InvoiceDto;
 import it.academy.accountingsb.entity.Equipment;
 import it.academy.accountingsb.entity.Invoice;
 import it.academy.accountingsb.managment.interfaces.InvoiceService;
+import it.academy.accountingsb.mappers.EquipmentMapper;
 import it.academy.accountingsb.mappers.InvoiceMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,14 +28,17 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final OrganizationRepository organizationRepository;
     private final EquipmentRepository equipmentRepository;
 
+    private final EquipmentMapper equipmentMapper;
+
     public InvoiceServiceImpl(InvoiceRepository invoiceRepository,
                               InvoiceMapper invoiceMapper,
                               OrganizationRepository organizationRepository,
-                              EquipmentRepository equipmentRepository) {
+                              EquipmentRepository equipmentRepository, EquipmentMapper equipmentMapper) {
         this.invoiceRepository = invoiceRepository;
         this.invoiceMapper = invoiceMapper;
         this.organizationRepository = organizationRepository;
         this.equipmentRepository = equipmentRepository;
+        this.equipmentMapper = equipmentMapper;
     }
 
     @Override
@@ -78,23 +83,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoiceRepository.findAll(pageable).map(invoiceMapper::toInvoiceDto);
     }
 
-//    @Override
-//    public Invoice writeNewInvoice(Integer number,
-//                                   LocalDate date,
-//                                   String cause,
-//                                   Integer idSupplier,
-//                                   Integer idReceiver) {
-//        Invoice invoice = Invoice.builder()
-//                .number(number)
-//                .date(date)
-//                .cause(cause)
-//                .supplier(daoImplSupplier.getEntity(idSupplier))
-//                .receiver(daoImplReceiver.getEntity(idReceiver))
-//                .build();
-//        daoImplInvoice.insert(invoice);
-//        return invoice;
-//    }
-
     @Override
     @Transactional
     public void getEquipmentForInvoice(String[] equipments,
@@ -107,5 +95,12 @@ public class InvoiceServiceImpl implements InvoiceService {
             equipment.setInvoices(invoices);
             equipmentRepository.save(equipment);
         }
+    }
+
+    @Override
+    public List<EquipmentDto> getEquipment(Integer idInvoice) {
+        return invoiceRepository.showEquipmentsForInvoice(idInvoice).stream()
+                .map(equipmentMapper::toEquipmentDto)
+                .collect(Collectors.toList());
     }
 }

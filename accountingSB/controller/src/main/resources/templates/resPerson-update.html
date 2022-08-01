@@ -70,25 +70,32 @@
                 <input type="text" th:field="*{name}" id="name2" readonly value="name">
 
                 <label for="branch">Филиал:</label>
-                <select th:field="*{branch.id}" required>
-                    <option th:value="*{branch.id}"
-                            th:text="*{branch.name}"></option>
+                <select name="branch" th:field="*{branch.id}" id="branch" required>
+                    <option value=""></option>
                     <option
                             th:each="branch: ${listOfBranches}"
                             th:text="${branch.name}"
-                            th:value="${branch.id}"></option>
+                            th:value="${branch.id}"
+                            th:name="branch">
+                        <div th:if="${resPerson.branch!=null}"
+                             th:selected="${branch.id}==${resPerson.branch.id}">
+                        </div>
+                    </option>
                 </select>
 
-                <label for="department">Отдел:</label>
-                <select th:field="*{department.id}" required>
-                    <option th:value="*{department.id}"
-                            th:text="*{department.name}"></option>
+                <label for="department2">Отдел:</label>
+                <select name="department" th:field="*{department.id}" id="department2" required>
+                    <option value=""></option>
                     <option
                             th:each="department: ${listOfDepartments}"
                             th:text="${department.name}"
-                            th:value="${department.id}"></option>
+                            th:value="${department.id}"
+                            th:name="department">
+                        <div th:if="${resPerson.departmetn!=null}"
+                             th:selected="${department.id}==${resPerson.departmetn.id}">
+                        </div>
+                    </option>
                 </select>
-
             </div>
         </div>
 

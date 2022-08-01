@@ -5,12 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,10 +20,10 @@ public class InvoiceDto {
     private Integer number;
     @NotNull(message = "Нужно ввести дату накладной")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @PastOrPresent(message = "Введите дату корректно")
     private LocalDate date;
     @NotEmpty(message = "Поле не должно быть пустым")
     private String cause;
     private OrganizationDto receiver;
     private OrganizationDto supplier;
-    private List<EquipmentDto> equipmentsInInvoice;
 }

@@ -1,6 +1,6 @@
 package it.academy.accountingsb.controllers;
 
-import it.academy.accountingsb.constants.Const;
+import it.academy.accountingsb.constants.Constant;
 import it.academy.accountingsb.dto.EquipmentDto;
 import it.academy.accountingsb.managment.interfaces.EquipmentDetailService;
 import it.academy.accountingsb.managment.interfaces.EquipmentService;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static it.academy.accountingsb.constants.Const.*;
+import static it.academy.accountingsb.constants.Constant.*;
 
 @Controller
 @RequestMapping("/equipments")
@@ -137,7 +137,7 @@ public class EquipmentController {
         model.addAttribute(LIST_OF_INVOICES, invoiceService.getListOfInvoiceDto());
         model.addAttribute(LIST_OF_EQUIPMENT_DETAILS, equipmentDetailService.getListOfEquipmentDetail());
         model.addAttribute(LIST_OF_RESPONSIBLE_PERSONS, resPersonService.getListOfResponsiblePerson());
-        model.addAttribute(Const.INVOICE_CURRENT_ID, idInvoiceCurrent);
+        model.addAttribute(Constant.INVOICE_CURRENT_ID, idInvoiceCurrent);
         return EQUIPMENT_UPDATE_HTML;
     }
 

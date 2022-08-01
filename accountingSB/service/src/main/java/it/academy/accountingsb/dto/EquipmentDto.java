@@ -30,6 +30,7 @@ public class EquipmentDto {
     @NotEmpty(message = "Поле не должно быть пустым")
     private String status;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @PastOrPresent(message = "Введите дату корректно")
     private LocalDate startDate;
     @NotNull(message = "Поле не должно быть пустым")
     @DecimalMin("1")

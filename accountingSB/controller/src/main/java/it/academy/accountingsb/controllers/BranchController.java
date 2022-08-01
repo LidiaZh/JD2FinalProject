@@ -1,6 +1,6 @@
 package it.academy.accountingsb.controllers;
 
-import it.academy.accountingsb.constants.Const;
+import it.academy.accountingsb.constants.Constant;
 import it.academy.accountingsb.dto.BranchDto;
 import it.academy.accountingsb.managment.interfaces.BranchService;
 import org.springframework.data.domain.Page;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static it.academy.accountingsb.constants.Const.*;
+import static it.academy.accountingsb.constants.Constant.*;
 
 @Controller
 @RequestMapping("/branches")
@@ -83,7 +83,7 @@ public class BranchController {
                                    @PathVariable(SORT_DIR) String sortDir,
                                    Model model) {
         BranchDto branchDto = branchService.getBranch(idBranch);
-        model.addAttribute(Const.BRANCH, branchDto);
+        model.addAttribute(Constant.BRANCH, branchDto);
         setPageAttribute(pageNum, sortField, sortDir, model);
         return BRANCH_DELETE_HTML;
     }
