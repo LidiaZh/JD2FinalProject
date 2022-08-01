@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoices</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a th:href="@{/equipments}">Оборудование</a>
+    <a class="active" th:href="@{/invoices}">Накладные</a>
+    <a th:href="@{/organizations}">Организации</a>
+    <a th:href="@{/branches}">Филиалы</a>
+    <a th:href="@{/branches_departments}">Отделы</a>
+    <a th:href="@{/resPersons}">МОЛ</a>
+    <a th:href="@{/rest-organizations}">Rest</a>
+</div>
+
+<h1>Удалить Накладную</h1>
+<div class="container">
+    <form th:method="post" th:action="@{/invoices/invoice-delete}" th:object="${invoice}">
+        <input type="hidden" name="pageNum" th:value="${pageNum}">
+        <input type="hidden" name="sortField" th:value="${sortField}">
+        <input type="hidden" name="sortDir" th:value="${sortDir}">
+        <input type="hidden" name="id" th:value="*{id}">
+
+        <label for="number">Номер №:</label>:
+        <input type="text" th:field="*{number}" id="number" disabled value="number">
+
+        <label for="date">Дата:</label>
+        <input type="text" th:field="*{date}" id="date" disabled value="date">
+
+        <label for="cause">Основание:</label>
+        <input type="text" th:field="*{cause}" id="cause" disabled value="cause">
+
+        <label for="supplier">ГрузоОтправитель:</label>
+        <input type="text" th:field="*{supplier.name}" id="supplier" disabled value="supplier">
+
+        <label for="receiver">ГрузоПолучатель:</label>
+        <input type="text" th:field="*{receiver.name}" id="receiver" disabled value="receiver">
+
+        <input type="hidden" name="action">
+        <button type="submit">Удалить</button>
+
+        <button type="reset">
+            <a th:href="@{'/invoices/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Назад</a>
+        </button>
+    </form>
+</div>
+</body>
+</html>

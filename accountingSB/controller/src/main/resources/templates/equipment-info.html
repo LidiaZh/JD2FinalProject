@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<import>java.time.package></import>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipments</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a class="active" th:href="@{/equipments}">Оборудование</a>
+    <a th:href="@{/invoices}">Накладные</a>
+    <a th:href="@{/organizations}">Организации</a>
+    <a th:href="@{/branches}">Филиалы</a>
+    <a th:href="@{/branches_departments}">Отделы</a>
+    <a th:href="@{/resPersons}">МОЛ</a>
+    <a th:href="@{/rest-organizations}">Rest</a>
+</div>
+<br><br>
+<button class="btn b1">
+    <a th:href="@{'/equipments/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Назад</a>
+</button>
+<br><br>
+<div style="text-align: center;">
+    <h1 th:text="${equipment.equipmentDetail.name}">"</h1>
+</div>
+<p>
+    <strong>Инв.Номер:</strong><span th:text="${equipment.accountNumber}"/>
+</p>
+<p>
+    <strong>Серийный номер:</strong> <span th:text="${equipment.serialNumber}"/>
+</p>
+<p>
+
+<div th:if="${equipment.responsiblePerson} !=null">
+    <strong>МОЛ: </strong>
+    <nobr th:text="${equipment.responsiblePerson.surname} + ' ' + ${equipment.responsiblePerson.name} + ', '
+     + ${equipment.responsiblePerson.department.name} + ' ' + ${equipment.responsiblePerson.branch.name}"></nobr>
+</div>
+<div th:unless="${equipment.responsiblePerson} !=null">
+    <strong>МОЛ: </strong>
+</div>
+
+<div th:with="yearDepreciation=${equipment.price}*(1/${equipment.equipmentDetail.termOfUse}),
+    monthDepreciation=${yearDepreciation}/12">
+    <div th:if="${equipment.startDate != null}">
+        <div th:with="dateOfEndUsage=${equipment.startDate.plusYears(equipment.equipmentDetail.termOfUse).minusDays(1)},
+                startDate =${equipment.startDate},
+                dateNow=${#dates.createNow().getTime()},
+                datestartDate=${#dates.create(#temporals.year(startDate),#temporals.month(startDate),#temporals.day(startDate)).getTime()},
+                dateEnd=${#dates.create(#temporals.year(dateOfEndUsage),#temporals.month(dateOfEndUsage),#temporals.day(dateOfEndUsage)).getTime()},
+                usageInMonth=${(dateEnd - dateNow)*(-1)/(1000*60*60*24*30)/1.5}">
+
+            <table id="customers">
+                <caption><h2>Амортизация</h2></caption>
+                <thead>
+                <tr>
+                    <th>Начало экспл.</th>
+                    <th>Цена, руб.</th>
+                    <th>Сумма аморт. год., руб.</th>
+                    <th>Сумма аморт. мес., руб.</th>
+                    <th>Остаточная стоимость, руб.</th>
+                    <th>Оконч.экспл.</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <div th:if="${equipment.startDate != null}">
+                        <td th:text="${equipment.startDate}">
+                        </td>
+                    </div>
+                    <td th:text="${#numbers.formatDecimal(equipment.price,0,'COMMA',2,'POINT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(yearDepreciation,0,'COMMA',2,'POINT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(monthDepreciation,0,'COMMA',2,'POINT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(usageInMonth*monthDepreciation,0,'COMMA',2,'POINT')}"></td>
+                    <td th:text="${dateOfEndUsage}"/>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div th:unless="${equipment.startDate != null}">
+        <div center><h3>Оборудование не введено в эксплуатацию</h3></div>
+    </div>
+</div>
+<br><br>
+<div th:switch="${equipment.invoicesForEquipment}">
+    <div><h2 th:case="null">Оборудования в БД нет</h2></div>
+    <div th:case="*">
+        <table id="customers">
+            <caption><h2>Движение Оборудования</h2></caption>
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>№ Накладной</th>
+                <th>Дата</th>
+                <th>Основание</th>
+                <th>ГрузоОтправитель</th>
+                <th>ГрузоПолучатель</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="invoice,iter: ${equipment.invoicesForEquipment}">
+                <td th:text="${iter.count}"></td>
+                <td th:text="${invoice.number}"></td>
+                <td th:text="${invoice.date}"></td>
+                <td th:text="${invoice.cause}"></td>
+                <td th:text="${invoice.supplier.name}"></td>
+                <td th:text="${invoice.receiver.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br><br>
+</body>
+</html>

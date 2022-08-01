@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipments</title>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/footer.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+    <link th:href="@{/css/button.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <button class="btn b3">
+        <a th:href="@{/logout}">Logout</a>
+    </button>
+    <h1>Учет оборудования</h1>
+</div>
+
+<div class="topnav">
+    <a th:href="@{/}">Главная</a>
+    <a class="active" th:href="@{/equipments}">Оборудование</a>
+    <a th:href="@{/invoices}">Накладные</a>
+    <a th:href="@{/organizations}">Организации</a>
+    <a th:href="@{/branches}">Филиалы</a>
+    <a th:href="@{/branches_departments}">Отделы</a>
+    <a th:href="@{/resPersons}">МОЛ</a>
+    <a th:href="@{/rest-organizations}">Rest</a>
+</div>
+<h1>Добавить Оборудование</h1>
+
+<div class="container">
+    <form name="create" th:action="@{/equipments/equipment-create}" th:object="${equipment}" method="post">
+
+        <input type="hidden" name="pageNum" th:value="${pageNum}">
+        <input type="hidden" name="sortField" th:value="${sortField}">
+        <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+        <label for="accountNumber">Инвентарный номер: </label>
+        <input type="text" th:field="*{accountNumber}" id="accountNumber" placeholder="99424654">
+        <div style="color: red" th:if="${#fields.hasErrors('accountNumber')}" th:errors="*{accountNumber}"></div>
+
+        <label for="serialNumber">Серийный номер: </label>
+        <input type="text" th:field="*{serialNumber}" id="serialNumber" placeholder="SA321S1AA">
+        <div style="color: red" th:if="${#fields.hasErrors('serialNumber')}" th:errors="*{serialNumber}"></div>
+        <div th:if="${errorMessage}!=null"
+             style="color: red" th:text="${errorMessage}"></div>
+        <br>
+
+        <label for="invoice">Накладная: </label>
+        <select th:field="*{idInvoiceLast}" id="invoice" required>
+            <option value=""></option>
+            <option
+                    th:each="invoice: ${listOfInvoices}"
+                    th:text="${invoice.number} + ' ' + ${invoice.date}"
+                    th:value="${invoice.id}">
+            </option>
+        </select>
+        <div style="color: red" th:if="${#fields.hasErrors('idInvoiceLast')}" th:errors="*{idInvoiceLast}"></div>
+
+        <label for="equipmentDetail">Модель оборудования:</label>
+        <select th:field="*{equipmentDetail.id}" id="equipmentDetail" required>
+            <option value=""></option>
+            <option
+                    th:each="equipmentDetail: ${listOfEquipmentDetails}"
+                    th:text="${equipmentDetail.name}"
+                    th:value="${equipmentDetail.id}">
+            </option>
+        </select>
+        <div style="color: red" th:if="${#fields.hasErrors('equipmentDetail.id')}"
+             th:errors="*{equipmentDetail.id}"></div>
+
+        <label for="status">Статус: </label>
+        <select th:field="*{status}" id="status">
+            <option value=""></option>
+            <option value="склад">склад</option>
+            <option value="оформление">оформление</option>
+            <option value="эксплуатация">эксплуатация</option>
+            <option value="ремонт">ремонт</option>
+            <option value="списание">списание</option>
+            <option value="списано">списано</option>
+        </select>
+        <div style="color: red" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
+
+        <label for="price">Цена, бел.руб.: </label>
+        <input type="text" th:field="*{price}" id="price" required placeholder="15000">
+        <div style="color: red" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
+
+        <input type="hidden" name="action">
+        <button type="submit">Сорханить</button>
+
+        <button type="reset">
+            <a th:href="@{'/equipments/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Назад</a>
+        </button>
+    </form>
+</div>
+</body>
+</html>
