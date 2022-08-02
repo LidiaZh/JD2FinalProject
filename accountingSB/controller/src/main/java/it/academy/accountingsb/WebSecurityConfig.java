@@ -25,17 +25,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/index", "/").permitAll()
-                .antMatchers("/*equipments", "/invoices", "/organizations").hasAnyAuthority("USER","ADMIN")
-                .antMatchers("/*").hasAnyAuthority("ADMIN")
-                .anyRequest().authenticated()
+                    .antMatchers("/").permitAll()
+                    .antMatchers("/*equipments", "/invoices", "/organizations").hasAnyAuthority("USER","ADMIN")
+                    .antMatchers("/*").hasAnyAuthority("ADMIN")
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin().permitAll()
-                .defaultSuccessUrl("/", true)
+                    .formLogin()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/", true)
+                    .failureUrl("/login?error=true")
+                    .permitAll()
                 .and()
-                .logout()
-                .permitAll()
-                .logoutSuccessUrl("/login");
+                    .logout()
+                    .permitAll()
+                    .logoutSuccessUrl("/login");
     }
 
     @Autowired
